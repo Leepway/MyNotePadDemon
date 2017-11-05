@@ -11,6 +11,7 @@
 #include <QDate>
 #include <QFont>
 #include <QColor>
+#include <QTextStream>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -72,12 +73,13 @@ void MainWindow::openfile()
     //打开
     QString filename = QFileDialog::getOpenFileName(this,"请选择文件","./","text files (*.txt)");
     QFile file (filename);
+    QTextStream in(&file);
 
     if (!file.open(QIODevice::ReadOnly|QIODevice::Text))
     {QMessageBox *msg = new QMessageBox(this);
         msg->setText("Error");
         return;}
-    edit->setText( file.readAll());
+    edit->setText( in.readAll());
     file.close();
 }
 
